@@ -2,10 +2,10 @@ import {useState} from 'react';
 import {Text,BottomNavigation, Appbar} from 'react-native-paper';
 import Lista from './Lista';
 
-const InboxRoute = () => <Lista/>;
-const SnoozeRoute = () => <Text>2</Text>;
-const DoableRoute = () => <Text>3</Text>;
-const DoneRoute = () => <Text>4</Text>;
+const InboxRoute = () => <Lista estado="inbox" />;
+const SnoozeRoute = () => <Lista estado="snooze" />;
+const DoableRoute = () => <Lista estado="doable" />;
+const DoneRoute = () => <Lista estado="done" />;
 
 const Inicio = () => {
     const [index, setIndex] = useState(0);

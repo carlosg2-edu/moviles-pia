@@ -21,7 +21,27 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "@react-native-vector-icons/material-design-icons"
-    ]
+      "@react-native-vector-icons/material-design-icons",
+      [
+        "expo-sqlite",
+        {
+          "enableFTS": true,
+          "useSQLCipher": true,
+          "android": {
+            "enableFTS": false,
+            "useSQLCipher": false
+          },
+          "ios": {
+            "customBuildFlags": "-DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_SNAPSHOT=1"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ac89cae9-5037-4eb8-b5f0-4bcd86a4b5b4"
+      }
+    },
+    "owner": "carlosg2eduteam"
   }
 }

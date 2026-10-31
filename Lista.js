@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { Text, List } from "react-native-paper";
+import * as SQLite from 'expo-sqlite';
 import tasks from "./data/tasks.json"
 import Tarea from "./Tarea";
 

@@ -1,18 +1,15 @@
-import { List, Menu } from "react-native-paper";
+import { Text, List, Checkbox} from "react-native-paper";
+import { View } from "react-native";
 
-export default function Tarea({
-  tarea,
-  onChangeStatus,
-  onDelete,
-}) {
-  return (
-    <List.Item
-      title={tarea.title}
-      description={`Fecha de vencimiento: ${tarea.duedate ?? "Sin fecha"}`}
-      left={(props) => (
-        <List.Icon {...props} icon="folder" />
-      )}
-      onPress={() => onChangeStatus(tarea.id, "done")}
-    />
-  );
+export default function Tarea(estado_vista, titulo, estado, fecha){
+    if (estado_vista.includes(estado)){
+        return(
+            <List.Item
+                title={titulo}
+                description={"Fecha de vencimiento: ".concat(fecha)}
+                left={props => <List.Icon {...props} icon="folder" />}
+                />
+        )
+    }
+    return <View></View>
 }

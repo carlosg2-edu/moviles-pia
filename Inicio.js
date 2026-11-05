@@ -2,23 +2,26 @@ import {useState} from 'react';
 import {Text,BottomNavigation, Appbar} from 'react-native-paper';
 import Lista from './Lista';
 
-const InboxRoute = () => <Lista estado="inbox" />;
-const SnoozeRoute = () => <Lista estado="snooze" />;
-const DoableRoute = () => <Lista estado="doable" />;
-const DoneRoute = () => <Lista estado="done" />;
+const InboxRoute = () => <Lista estado='inbox'/>;
+const IncubatorRoute = () => <Lista estado='incubator'/>;
+const SnoozeRoute = () => <Lista estado='snooze'/>;
+const DoableRoute = () => <Lista estado='doable'/>;
+const DoneRoute = () => <Lista estado='done'/>;
 
 const Inicio = () => {
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         {key:'entrada', title: 'Entrada', focusedIcon: 'inbox', unfocusedIcon: 'inbox-outline'},
-        {key:'suspenso', title: 'Snooze', focusedIcon: 'sleep'},
+        {key:'incubator', title: 'Incubator', focusedIcon: 'lightbulb', unfocusedIcon: 'lightbulb-outline'},
+        {key:'snooze', title: 'Snooze', focusedIcon: 'sleep'},
         {key:'doable', title: 'Doable', focusedIcon: 'pencil', unfocusedIcon: 'pencil-outline'},
         {key:'done', title: 'Done', focusedIcon: 'checkbox-marked', unfocusedIcon: 'checkbox-marked-outline'}
     ])
 
     const renderScene = BottomNavigation.SceneMap({
         entrada: InboxRoute,
-        suspenso: SnoozeRoute,
+        incubator: IncubatorRoute,
+        snooze: SnoozeRoute,
         doable: DoableRoute,
         done: DoneRoute,
     })

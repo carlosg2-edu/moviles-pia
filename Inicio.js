@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import MyComponent from './Playground';
 import {Text,BottomNavigation, Appbar} from 'react-native-paper';
 import Lista from './Lista';
 

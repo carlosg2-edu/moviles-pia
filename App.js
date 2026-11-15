@@ -22,10 +22,6 @@ export default function App() {
   return (
     
     <PaperProvider>
-        <SQLiteProvider
-        databaseName="gsr.db"
-        onInit={initializeDatabase}>
-        </SQLiteProvider>
         <Appbar.Header>
           <Appbar.Content title="GSR" />
           <Appbar.Action icon="plus" onPress={showDialog}/>
@@ -60,7 +56,7 @@ export default function App() {
                 </Dialog.Content>
                 <Dialog.Actions>
                   <Button onPress={hideDialog}>Cancelar</Button>
-                  <Button onPress={() => addTask('gsr.db',{})}>Hecho</Button>
+                  <Button onPress={hideDialog}>Hecho</Button>
                 </Dialog.Actions>
               </Dialog>
           </Portal>

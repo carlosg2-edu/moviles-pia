@@ -1,14 +1,9 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import Inicio from './Inicio';
-import { SQLiteProvider } from 'expo-sqlite';
-import { initializeDatabase, addTask } from './database';
+import * as SQLite from 'expo-sqlite';
 import { PaperProvider, Text, Appbar, Portal, Dialog, Button, TextInput } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
-import Agregar from './Agregar';
-
-
-
 
 
 export default function App() {
@@ -19,6 +14,9 @@ export default function App() {
   const [nombreTarea, setNombreTarea] = useState("");
   const [labelTarea, setLabelTarea] = useState("");
   const [fechaTarea, setFechaTarea] = useState("");
+
+  const [db, setDb] = useState(null);
+
   return (
     
     <PaperProvider>

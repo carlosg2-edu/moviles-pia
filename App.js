@@ -44,8 +44,6 @@ export default function App() {
   if (!dbReady) {
     return <View style={styles.container}/>;
   }
-
-  
   
 
   return (
@@ -63,19 +61,19 @@ export default function App() {
               >
                 <Dialog.Title>Agregar tarea</Dialog.Title>
                 <Dialog.Content>
-                  <Text variant="bodyMedium">This is simple dialog</Text>
+                  <Text variant="bodyMedium">Introduzca el nombre de la tarea</Text>
                   <TextInput
                     label="Nombre de la tarea"
                     value={nombreTarea}
                     onChangeText={nombreTarea => setNombreTarea(nombreTarea)}
                   />
-                  <Text variant="bodyMedium">This is simple dialog</Text>
+                  <Text variant="bodyMedium">Introduzca la etiqueta de la tarea</Text>
                   <TextInput
                     label="Etiqueta"
                     value={labelTarea}
                     onChangeText={labelTarea => setLabelTarea(labelTarea)}
                   />
-                  <Text variant="bodyMedium">Escriba la fecha de vencimiento con estructura YYYY-MM-DD</Text>
+                  <Text variant="bodyMedium">Escriba la fecha de vencimiento con estructura YYYY-MM-DD (año-mes-día)</Text>
                   <TextInput
                     label="Ejemplo: '2026-11-20'"
                     value={fechaTarea}

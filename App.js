@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import Inicio from './Inicio';
 import * as SQLite from 'expo-sqlite';
+import { initializeDatabase, addTask } from './database';
 import { PaperProvider, Text, Appbar, Portal, Dialog, Button, TextInput } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 
 export default function App() {
@@ -15,10 +16,39 @@ export default function App() {
   const [labelTarea, setLabelTarea] = useState("");
   const [fechaTarea, setFechaTarea] = useState("");
 
-  const [db, setDb] = useState(null);
+
+  const [dbReady, setDbReady] = useState(false);
+
+  useEffect(() => {
+    let database;
+
+    async function iniciarBaseDatos() {
+      try {
+        database = await SQLite.openDatabaseAsync("gsr.db");
+        await initializeDatabase(database);
+        setDbReady(true);
+      } catch (error) {
+        console.error("Error al iniciar SQLite:", error);
+      }
+    }
+
+    iniciarBaseDatos();
+
+    return () => {
+      if (database) {
+        database.closeAsync();
+      }
+    };
+  }, []);
+
+  if (!dbReady) {
+    return <View style={styles.container}/>;
+  }
+
+  
+  
 
   return (
-    
     <PaperProvider>
         <Appbar.Header>
           <Appbar.Content title="GSR" />
@@ -54,11 +84,25 @@ export default function App() {
                 </Dialog.Content>
                 <Dialog.Actions>
                   <Button onPress={hideDialog}>Cancelar</Button>
-                  <Button onPress={hideDialog}>Hecho</Button>
+                  <Button
+                    onPress={async () => {
+                      await addTask({
+                        title: nombreTarea,
+                        label: labelTarea,
+                        duedate: fechaTarea,
+                      });
+
+                      setNombreTarea("");
+                      setLabelTarea("");
+                      setFechaTarea("");
+                      hideDialog();
+                    }}
+                  >Hecho</Button>
                 </Dialog.Actions>
               </Dialog>
           </Portal>
           <StatusBar style="auto" />
+
       </PaperProvider>
   );
 }

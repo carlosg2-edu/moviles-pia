@@ -1,18 +1,20 @@
+import * as SQLite from 'expo-sqlite';
+
 export async function initializeDatabase(db) {
   await db.execAsync(`
     PRAGMA journal_mode = WAL;
-
     CREATE TABLE IF NOT EXISTS tasks (
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       title TEXT NOT NULL,
       label TEXT NOT NULL,
       estado TEXT NOT NULL,
-      duedate TEXT
+      duedate TEXT NOT NULL
     );
   `);
 }
 
-export async function addTask(db, { title, label, estado = 'inbox', duedate = null }) {
+export async function addTask({ title, label, estado = 'inbox', duedate}) {
+  const db = await SQLite.openDatabaseAsync("gsr.db");
   if (!title || title.trim().length === 0) {
     throw new Error('El título de la tarea es obligatorio.');
   }
@@ -30,7 +32,7 @@ export async function addTask(db, { title, label, estado = 'inbox', duedate = nu
     estado,
     duedate
   );
-
+  console.log("Tarea agregada con éxito:", result);
   return {
     id: result.lastInsertRowId,
     title: title.trim(),
@@ -38,6 +40,19 @@ export async function addTask(db, { title, label, estado = 'inbox', duedate = nu
     estado,
     duedate,
   };
+  
+}
+
+export async function getTasksByStatus(db, estado) {
+  return db.getAllAsync(
+    `
+      SELECT id, title, label, estado, duedate
+      FROM tasks
+      WHERE estado = ?
+      ORDER BY duedate ASC
+    `,
+    [estado]
+  );
 }
 
 export async function changeTaskStatus(db, taskId, estado) {

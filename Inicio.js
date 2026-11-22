@@ -59,7 +59,7 @@ const addTask = async () => {
 const Inicio = () => {
     const [index, setIndex] = useState(0);
     const [routes] = useState([
-        {key:'entrada', title: 'Entrada', focusedIcon: 'inbox', unfocusedIcon: 'inbox-outline'},
+        {key:'entrada', title: 'Inbox', focusedIcon: 'inbox', unfocusedIcon: 'inbox-outline'},
         {key:'incubator', title: 'Incubator', focusedIcon: 'lightbulb', unfocusedIcon: 'lightbulb-outline'},
         {key:'snooze', title: 'Snooze', focusedIcon: 'sleep'},
         {key:'doable', title: 'Doable', focusedIcon: 'pencil', unfocusedIcon: 'pencil-outline'},

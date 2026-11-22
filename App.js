@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   fullScreenDialog: {
     width: '90%',
-    height: '90%',
+    height: '70%',
     justifyContent: 'center',
     margin: 3,
     borderRadius: 20,

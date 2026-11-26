@@ -19,7 +19,7 @@ async function openDatabase(){
     CREATE TABLE IF NOT EXISTS tasks (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
-      label TEXT NOT NULL,
+      label TEXT,
       estado TEXT NOT NULL,
       duedate TEXT NOT NULL
     );
@@ -32,29 +32,6 @@ async function openDatabase(){
     return null;
   }
 }
-
-const addTask = async () => {
-    if (!db || !title.trim()) return;
-
-    try {
-      await db.runAsync(`INSERT INTO tasks (title, label, estado, duedate) VALUES (?, ?, ?, ?); `, [
-        title.trim(),
-        label.trim(),
-        "inbox",
-        duedate.trim(),
-      ]);
-
-      setNombreTarea("");
-      setLabelTarea("");
-      setFechaTarea("");
-      hideDialog();
-
-    } catch (error) {
-      console.error("Add error:", error);
-    }
-  };
-
-
 
 const Inicio = () => {
     const [index, setIndex] = useState(0);

@@ -1,12 +1,16 @@
 import { useState } from "react";
 import * as SQLite from "expo-sqlite";
-import { IconButton, Text, List, Checkbox, Menu} from "react-native-paper";
+import { IconButton, Text, List, Button, Menu, Portal, Dialog} from "react-native-paper";
 import { View } from "react-native";
 
 export default function Tarea({ id, titulo, fecha, label, onChanged }) {
   const [menuVisible, setMenuVisible] = useState(false);
+  const [borrarVisible, setBorrarVisible] = useState(false);
+  const [editarVisible, setEditarVisible] = useState(false);
 
   const cerrarMenu = () => setMenuVisible(false);
+  const cerrarBorrar = () => setBorrarVisible(false);
+  const cerrarEditar = () => setEditarVisible(false);
 
   async function cambiarEstado(estado) {
     try {
@@ -33,13 +37,13 @@ export default function Tarea({ id, titulo, fecha, label, onChanged }) {
         [id]
       );
 
+      cerrarBorrar();
       cerrarMenu();
       onChanged?.();
     } catch (error) {
       console.error("Error al eliminar la tarea:", error);
     }
   }
-
   return (
     <List.Item
       title={titulo}
@@ -48,6 +52,7 @@ export default function Tarea({ id, titulo, fecha, label, onChanged }) {
         <List.Icon {...props} icon="file-document" />
       )}
       right={() => (
+        
         <Menu
           visible={menuVisible}
           onDismiss={cerrarMenu}
@@ -59,25 +64,42 @@ export default function Tarea({ id, titulo, fecha, label, onChanged }) {
           }
         >
           <Menu.Item
+            leadingIcon="lightbulb"
             title="No es accionable"
             onPress={() => cambiarEstado("incubator")}
           />
           <Menu.Item
+            leadingIcon="pencil"
             title="Es accionable"
             onPress={() => cambiarEstado("doable")}
           />
           <Menu.Item
+            leadingIcon="sleep"
             title="Posponer"
             onPress={() => cambiarEstado("snooze")}
           />
           <Menu.Item
-            title="Marcar como hecha"
+            leadingIcon="check"
+            title="Terminada"
             onPress={() => cambiarEstado("done")}
           />
           <Menu.Item
-            title="Eliminar tarea"
-            onPress={eliminarTarea}
+            leadingIcon="delete"
+            title="Eliminar"
+            onPress={() => setBorrarVisible(true)}
           />
+          <Portal>
+              <Dialog visible={borrarVisible} onDismiss={cerrarBorrar}>
+                <Dialog.Title>Confirmar eliminación</Dialog.Title>
+                <Dialog.Content>
+                  <Text>¿Está seguro de que desea eliminar esta tarea?</Text>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={cerrarBorrar}>Cancelar</Button>
+                  <Button onPress={eliminarTarea}>Eliminar</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
         </Menu>
       )}
     />

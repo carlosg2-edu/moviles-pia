@@ -18,9 +18,6 @@ export async function addTask({ title, label, estado = 'inbox', duedate}) {
   if (!title || title.trim().length === 0) {
     throw new Error('El título de la tarea es obligatorio.');
   }
-  if (!label || label.trim().length === 0) {
-    throw new Error('Debe darle una etiqueta a la tarea.');
-  }
 
   const result = await db.runAsync(
     `

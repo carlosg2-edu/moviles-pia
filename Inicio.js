@@ -39,7 +39,7 @@ const Inicio = () => {
         {key:'entrada', title: 'Inbox', focusedIcon: 'inbox', unfocusedIcon: 'inbox-outline'},
         {key:'incubator', title: 'Incubator', focusedIcon: 'lightbulb', unfocusedIcon: 'lightbulb-outline'},
         {key:'snooze', title: 'Snooze', focusedIcon: 'sleep'},
-        {key:'doable', title: 'Doable', focusedIcon: 'pencil', unfocusedIcon: 'pencil-outline'},
+        {key:'doable', title: 'Doable', focusedIcon: 'priority-high'},
         {key:'done', title: 'Done', focusedIcon: 'checkbox-marked', unfocusedIcon: 'checkbox-marked-outline'}
     ])
 

@@ -4,7 +4,7 @@ import { Text, List } from "react-native-paper";
 import * as SQLite from 'expo-sqlite';
 import Tarea from "./Tarea";
 
-export default function Lista({ estado = "inbox" }) {
+export default function Lista({ estado = "inbox", refreshSignal = 0 }) {
   const [tareas, setTareas] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -26,7 +26,7 @@ export default function Lista({ estado = "inbox" }) {
 
   useEffect(() => {
     cargarTareas();
-  }, [estado, refreshKey]);
+  }, [estado, refreshKey, refreshSignal]);
 
   return (
     <View>

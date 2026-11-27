@@ -15,6 +15,7 @@ export default function App() {
   const [nombreTarea, setNombreTarea] = useState("");
   const [labelTarea, setLabelTarea] = useState("");
   const [fechaTarea, setFechaTarea] = useState("");
+  const [taskRefreshSignal, setTaskRefreshSignal] = useState(0);
 
 
   const [dbReady, setDbReady] = useState(false);
@@ -52,7 +53,7 @@ export default function App() {
           <Appbar.Content title="GSR" />
           <Appbar.Action icon="plus" onPress={showDialog}/>
         </Appbar.Header>
-          <Inicio/>
+          <Inicio refreshSignal={taskRefreshSignal} />
           <Portal>
               <Dialog
                 visible={visible}
@@ -90,6 +91,7 @@ export default function App() {
                         duedate: fechaTarea,
                       });
 
+                      setTaskRefreshSignal((signal) => signal + 1);
                       setNombreTarea("");
                       setLabelTarea("");
                       setFechaTarea("");

@@ -2,12 +2,6 @@ import {useState} from 'react';
 import {Text,BottomNavigation, Appbar} from 'react-native-paper';
 import Lista from './Lista';
 
-const InboxRoute = () => <Lista estado='inbox'/>;
-const IncubatorRoute = () => <Lista estado='incubator'/>;
-const SnoozeRoute = () => <Lista estado='snooze'/>;
-const DoableRoute = () => <Lista estado='doable'/>;
-const DoneRoute = () => <Lista estado='done'/>;
-
 async function openDatabase(){
   try {
     const database = await SQLite.openDatabaseAsync("gsr.db");
@@ -33,7 +27,7 @@ async function openDatabase(){
   }
 }
 
-const Inicio = () => {
+const Inicio = ({ refreshSignal }) => {
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         {key:'entrada', title: 'Inbox', focusedIcon: 'inbox', unfocusedIcon: 'inbox-outline'},
@@ -43,16 +37,25 @@ const Inicio = () => {
         {key:'done', title: 'Done', focusedIcon: 'checkbox-marked', unfocusedIcon: 'checkbox-marked-outline'}
     ])
 
-    const renderScene = BottomNavigation.SceneMap({
-        entrada: InboxRoute,
-        incubator: IncubatorRoute,
-        snooze: SnoozeRoute,
-        doable: DoableRoute,
-        done: DoneRoute,
-    })
+    const renderScene = ({ route }) => {
+        switch (route.key) {
+            case 'entrada':
+                return <Lista estado="inbox" refreshSignal={refreshSignal} />;
+            case 'incubator':
+                return <Lista estado="incubator" />;
+            case 'snooze':
+                return <Lista estado="snooze" />;
+            case 'doable':
+                return <Lista estado="doable" />;
+            case 'done':
+                return <Lista estado="done" />;
+            default:
+                return null;
+        }
+    };
 
     return(
-                <BottomNavigation 
+                <BottomNavigation
                 navigationState={{index, routes}}
                 onIndexChange={setIndex}
                 renderScene={renderScene}

@@ -6,9 +6,9 @@ export async function initializeDatabase(db) {
     CREATE TABLE IF NOT EXISTS tasks (
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       title TEXT NOT NULL,
-      label TEXT NOT NULL,
+      label TEXT,
       estado TEXT NOT NULL,
-      duedate TEXT NOT NULL
+      duedate TEXT
     );
   `);
 }

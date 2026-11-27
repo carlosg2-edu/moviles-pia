@@ -15,6 +15,8 @@ export default function Tarea({ id, titulo, fecha, label, onChanged }) {
   const cerrarBorrar = () => setBorrarVisible(false);
   const cerrarEditar = () => setEditarVisible(false);
 
+  const mostrarBorrar = () => setBorrarVisible(true);
+
   function abrirEdicion() {
     setTituloEditado(titulo ?? "");
     setLabelEditado(label ?? "");
@@ -87,7 +89,7 @@ export default function Tarea({ id, titulo, fecha, label, onChanged }) {
   return (
     <List.Item
       title={titulo}
-      description={`Etiqueta: ${label ?? "Sin etiqueta"} | Fecha de vencimiento: ${fecha ?? "Sin fecha"}`}
+      description={`Etiqueta: ${(label.trim()) ? label : "Sin etiqueta"} | Fecha de vencimiento: ${(fecha.trim()) ? fecha : "Sin fecha"}`}
       left={(props) => (
         <List.Icon {...props} icon="file-document" />
       )}

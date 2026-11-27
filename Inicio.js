@@ -27,8 +27,16 @@ async function openDatabase(){
   }
 }
 
+
+
+
 const Inicio = ({ refreshSignal }) => {
     const [index, setIndex] = useState(0);
+    const [ScreenSignal, setScreenSignal] = useState(false);
+    const increment = () => {
+        setScreenSignal(!ScreenSignal)
+        return ScreenSignal;
+    }
     const [routes] = useState([
         {key:'entrada', title: 'Inbox', focusedIcon: 'inbox', unfocusedIcon: 'inbox-outline'},
         {key:'incubator', title: 'Incubator', focusedIcon: 'lightbulb', unfocusedIcon: 'lightbulb-outline'},
@@ -42,13 +50,13 @@ const Inicio = ({ refreshSignal }) => {
             case 'entrada':
                 return <Lista estado="inbox" refreshSignal={refreshSignal} />;
             case 'incubator':
-                return <Lista estado="incubator" />;
+                return <Lista estado="incubator" refreshSignal={increment}/>;
             case 'snooze':
-                return <Lista estado="snooze" />;
+                return <Lista estado="snooze" refreshSignal={increment}/>;
             case 'doable':
-                return <Lista estado="doable" />;
+                return <Lista estado="doable" refreshSignal={increment}/>;
             case 'done':
-                return <Lista estado="done" />;
+                return <Lista estado="done" refreshSignal={increment}/>;
             default:
                 return null;
         }

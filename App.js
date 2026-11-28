@@ -17,6 +17,11 @@ Notifications.setNotificationHandler({
   }),
 });
 
+const DAILY_TASK_REMINDER_ID = 'daily-task-reminder';
+const DAILY_TASK_REMINDER_TITLE = '¡Hola! 📬';
+const DAILY_TASK_REMINDER_BODY = 'Es tiempo de revisar tus tareas pendientes.';
+let dailyTaskReminderPromise;
+
 export default function App() {
 
   const [expoPushToken, setExpoPushToken] = useState('');
@@ -38,6 +43,10 @@ export default function App() {
   const [dbReady, setDbReady] = useState(false);
 
   useEffect(() => {
+    ensureDailyTaskReminderScheduled().catch(error => {
+      console.error('Error al programar el recordatorio diario:', error);
+    });
+
     registerForPushNotificationsAsync().then(token => token && setExpoPushToken(token));
 
     if (Platform.OS === 'android') {
@@ -82,8 +91,6 @@ export default function App() {
   if (!dbReady) {
     return <View style={styles.container}/>;
   }
-  
-schedulePushNotification();
 
   return (
     <PaperProvider>
@@ -162,17 +169,50 @@ const styles = StyleSheet.create({
 });
 
 
-async function schedulePushNotification() {
+function ensureDailyTaskReminderScheduled() {
+  if (!dailyTaskReminderPromise) {
+    dailyTaskReminderPromise = scheduleDailyTaskReminder().finally(() => {
+      dailyTaskReminderPromise = undefined;
+    });
+  }
+
+  return dailyTaskReminderPromise;
+}
+
+async function scheduleDailyTaskReminder() {
+  const scheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
+  const reminders = scheduledNotifications.filter(request => {
+    const data = request.content.data;
+    const isCurrentReminder = data?.reminderId === DAILY_TASK_REMINDER_ID;
+    const isLegacyReminder =
+      request.content.title === DAILY_TASK_REMINDER_TITLE &&
+      request.content.body === DAILY_TASK_REMINDER_BODY &&
+      data?.data === 'goes here' &&
+      data?.test?.test1 === 'more data';
+
+    return isCurrentReminder || isLegacyReminder;
+  });
+
+  await Promise.all(
+    reminders.map(request =>
+      Notifications.cancelScheduledNotificationAsync(request.identifier)
+    )
+  );
+
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "¡Hola! 📬",
-      body: 'Es tiempo de revisar tus tareas pendientes.',
-      data: { data: 'goes here', test: { test1: 'more data' } },
+      title: DAILY_TASK_REMINDER_TITLE,
+      body: DAILY_TASK_REMINDER_BODY,
+      data: {
+        data: 'goes here',
+        test: { test1: 'more data' },
+        reminderId: DAILY_TASK_REMINDER_ID,
+      },
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DAILY,
-      hour: 20,
-      minute: 38,
+      hour: 21,
+      minute: 3,
     },
   });
 }

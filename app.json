@@ -37,8 +37,19 @@
           }
         }
       ],
-      "expo-status-bar"
-    ],
+      "expo-status-bar",
+      [
+        "expo-notifications",
+        {
+        "color": "#E6F4FE",
+        "sounds": [
+          "./assets/notificationsound.wav"
+        ],
+        "enableRemoteNotifications": true,
+        "enableBackgroundRemoteNotifications": false
+         }
+    ]
+  ],
     "extra": {
       "eas": {
         "projectId": "ac89cae9-5037-4eb8-b5f0-4bcd86a4b5b4"

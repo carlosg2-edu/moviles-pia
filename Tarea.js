@@ -15,8 +15,6 @@ export default function Tarea({ id, titulo, fecha, label, onChanged }) {
   const cerrarBorrar = () => setBorrarVisible(false);
   const cerrarEditar = () => setEditarVisible(false);
 
-  const mostrarBorrar = () => setBorrarVisible(true);
-
   function abrirEdicion() {
     setTituloEditado(titulo ?? "");
     setLabelEditado(label ?? "");

@@ -211,8 +211,8 @@ async function scheduleDailyTaskReminder() {
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DAILY,
-      hour: 21,
-      minute: 3,
+      hour: 8,
+      minute: 0,
     },
   });
 }
